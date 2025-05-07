@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorios de Simulación en Anestesiología - Universidad Antonio Nariño</title>
+    <style>
+        :root {
+            --azul-oscuro: #2c3e50;
+            --azul-medio: #3498db;
+            --azul-claro: #ecf0f1;
+            --gris-oscuro: #34495e;
+            --gris-medio: #7f8c8d;
+            --gris-claro: #bdc3c7;
+            --blanco: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--azul-claro);
+            color: var(--gris-oscuro);
+            transition: margin-left 0.5s;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .header-title p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Menú hamburguesa */
+        .menu-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--blanco);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 101;
+            top: 0;
+            left: 0;
+            background-color: var(--azul-oscuro);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 80px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        .sidebar.open {
+            width: 280px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1rem;
+            color: var(--blanco);
+            display: block;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar a:hover {
+            background-color: var(--gris-oscuro);
+            border-left: 4px solid var(--azul-medio);
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            margin-left: 50px;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            transition: margin-left 0.5s;
+        }
+
+        .main-content.shifted {
+            margin-left: 280px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--azul-medio), var(--azul-oscuro));
+            color: var(--blanco);
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--blanco);
+            color: var(--azul-oscuro);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--gris-claro);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        /* Secciones */
+        .section {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: var(--azul-oscuro);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gris-claro);
+        }
+
+        .section p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* Grid de características */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--azul-claro);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title h1 {
+                font-size: 1.2rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .main-content.shifted {
+                margin-left: 0;
+            }
+            
+            .sidebar.open {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <button class="menu-btn" id="menuBtn">☰</button>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_de_la_Universidad_Antonio_Nari%C3%B1o.svg/1200px-Logo_de_la_Universidad_Antonio_Nari%C3%B1o.svg.png" alt="Logo Universidad Antonio Nariño" class="logo">
+            <div class="header-title">
+                <h1>Laboratorios de Simulación en Anestesiología</h1>
+                <p>Universidad Antonio Nariño</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <a href="javascript:void(0)" class="close-btn" id="closeBtn">×</a>
+        <a href="#">Inicio</a>
+        <a href="#">Manejo básico de la vía aérea</a>
+        <a href="#">Manejo avanzado de la vía aérea</a>
+        <a href="#">Reanimación cardiopulmonar básica</a>
+        <a href="#">Reanimación cardiopulmonar avanzada</a>
+        <a href="#">Canalización de vía venosa periférica</a>
+        <a href="#">Manejo básico de la máquina de anestesia</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2>Simulación en Anestesiología de Alto Realismo</h2>
+            <p>Formamos profesionales competentes mediante tecnología de vanguardia en simulación médica, preparándolos para enfrentar los desafíos clínicos con seguridad y excelencia.</p>
+            <a href="#" class="btn btn-primary">Conoce nuestros programas</a>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <h2>Sobre nuestros laboratorios</h2>
+            <p>Los laboratorios de simulación en anestesiología de la Universidad Antonio Nariño cuentan con tecnología de punta para la formación de profesionales en el área de la salud. Nuestros simuladores de alta fidelidad permiten recrear escenarios clínicos realistas para el entrenamiento de estudiantes y profesionales.</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Tecnología de Vanguardia</h3>
+                    <p>Simuladores de alta fidelidad que replican respuestas fisiológicas reales para un entrenamiento efectivo.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Docentes Especializados</h3>
+                    <p>Contamos con un equipo docente altamente calificado en anestesiología y simulación clínica.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Ambientes Controlados</h3>
+                    <p>Espacios diseñados para simular quirófanos y áreas críticas con todos los equipos necesarios.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs Section -->
+        <section class="section">
+            <h2>Nuestros Programas de Entrenamiento</h2>
+            <p>Ofrecemos cursos especializados en diferentes áreas de la anestesiología, diseñados para estudiantes de medicina, residentes y profesionales de la salud que deseen mejorar sus habilidades técnicas y de toma de decisiones.</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Programas Básicos</h3>
+                    <p>Introducción a las técnicas fundamentales en anestesiología para estudiantes y profesionales que inician en el área.</p>
+                    <a href="#" class="btn">Más información</a>
+                </div>
+                <div class="feature-card">
+                    <h3>Programas Avanzados</h3>
+                    <p>Entrenamiento en procedimientos complejos y manejo de situaciones críticas para profesionales con experiencia.</p>
+                    <a href="#" class="btn">Más información</a>
+                </div>
+                <div class="feature-card">
+                    <h3>Certificaciones</h3>
+                    <p>Cursos con certificación internacional en áreas específicas de la anestesiología y el manejo del dolor.</p>
+                    <a href="#" class="btn">Más información</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2023 Laboratorios de Simulación en Anestesiología - Universidad Antonio Nariño</p>
+        <p>Contacto: simanestesia@uan.edu.co | Teléfono: +57 1 123 4567</p>
+    </footer>
+
+    <script>
+        // Menú desplegable
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            mainContent.classList.add('shifted');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('shifted');
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('shifted');
+            });
+        });
+
+        // Cerrar menú al hacer clic fuera de él
+        document.addEventListener('click', (event) => {
+            if (!sidebar.contains(event.target) && event.target !== menuBtn) {
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('shifted');
+            }
+        });
+    </script>
+</body>
+</html>
